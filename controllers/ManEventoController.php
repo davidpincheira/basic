@@ -148,11 +148,11 @@ class ManEventoController extends Controller
         $model = new ManEventoSeguimiento();
 
         $model->fecha=date("Y-m-d H:i:s");
-        //$model->cli_profesional_actuante_id= 2;
+        $model->cli_profesional_actuante_id= 2;
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
            //return $this->redirect(['man-evento/newSeguimiento']);
-            return $this->redirect(['man-evento/view']);
+        return $this->redirect(['view', 'id' => $man_evento_id]);
         }
         else {
                 
