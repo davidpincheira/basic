@@ -152,10 +152,10 @@ class ManEventoController extends Controller
         
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
            //return $this->redirect(['man-evento/newSeguimiento']);
-        return $this->redirect(['view', 'id' => $man_evento_id]);
+            return $this->redirect(['view', 'id' => $man_evento_id]);
         }
         else {
-                
+                           
             $model->man_evento_id=$man_evento_id;    
             return $this->renderPartial('newSeguimiento', [
             'model' => $model
@@ -163,4 +163,41 @@ class ManEventoController extends Controller
         }
     }
     
-}
+    public function actionListSeguimientos($id){
+        $searchModel = new ManEventoSearch();
+        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+        return $this->render('listSeguimientos', [
+            'searchModel' => $searchModel,
+            'dataProvider' => $dataProvider,
+        ]);
+    }
+    
+    
+    public function actionViewAjax($id) {
+        $model = $this->loadModel($id);
+        $this->renderPartial('newSeguimiento', array('model' => $model));
+    }
+
+    /**
+     * Displays a particular model, only the record data
+     * @param integer $id the ID of the model to be displayed
+     */
+    public function actionViewContentAjax($id) {
+        $this->renderPartial('_view', array('data' => $this->loadModel($id)));
+    }
+    
+    public function actionViewSeguimientosAjax($id){
+        $model = $this->loadModel($id);
+        $this->renderPartial('viewSeguimientosAjax',array('model'=>$model));
+    }
+    
+    public function actionIndexSeguimientosForEventoAjax($id){
+        //die("_bnbnbbn");
+        //$criterio = new CDbCriteria();
+        $criterio->addCondition('t.man_evento_id = '.$id);
+        $modelos = ManEventoSeguimiento::find()->findAll($criterio);
+        $this->renderPartial('indexSeguimientosForEventoAjax',array('modelos'=>$modelos));
+    }
+    
+}           

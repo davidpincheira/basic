@@ -3,6 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
+use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ManEvento*/
@@ -54,12 +55,11 @@ $this->params['breadcrumbs'][] = $this->title;
         ]) ?>
     </p>
     
-        <p>
-        <?= Html::a('Nuevo Seguimiento', '',//
-                ['id' => 'newSeguimientojs',//only to js
-                'class' => 'btn btn-default',
-                'data-toggle' => 'modal',
-                'data-target' => '#modal',
-                'data-url' => Url::to(['newseguimiento','man_evento_id'=>$model->id]),//at the view
-                'data-pjax' => '0', ]); ?>         
-    </p>
+    <div class="render_seguimientos">
+        
+     <?= $this->render('listSeguimientos', [
+        'model' => $model,
+    ])
+                        
+    ?>
+    </div>

@@ -13,7 +13,6 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="man-evento-create">
 
     <h1><?= Html::encode($this->title) ?></h1>
-           
 
     <?= $this->render('_form', [
         'model' => $model, 'cli_sectores' => $cli_sectores
