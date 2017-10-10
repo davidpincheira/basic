@@ -1,63 +1,57 @@
 <?php
-
 use yii\helpers\Html;
 use yii\helpers\Url; 
-$url = Url::to(['man-evento/index-seguimientos-for-evento-ajax', 'id'=>$model->id]);
+
+
+$url_detalle = Url::to(['index-seguimientos-for-evento-ajax', 'id'=>$model->id]);
+$url_eliminar = Url::to(['eliminarSeguimientoAjax']);
     $script = <<< JS
     var man_evento_view_detalle_controller = {
         contenedor_id: 'man_evento_view_seguimientos',
-        detail_url: '$url',
+        detail_url: '$url_detalle',
         form_container: null,
         report_viewer_container: null,
         report_viewer: null,
+            
+        delete: function (id) {
+            var controller = this;
+            if (confirm("Esta seguro de Borrar el Seguimiento id: " + id + "?")) {
+                $.post( controller.url_eliminar + '&id=' + id).done(function (data) {
+                    if (!data) {
+                        controller.recargarDetalle();
+                    } else {
+                        alert("Error: " + data);
+                    }
+                }).error(function (error) {
+                    alert("No se pudo eliminar el registro " + error.responseText);
+                });
+            }
+        },
                 
-        
         recargarDetalle: function () {
             var controller = this;
             $.get(controller.detail_url).done(function (data) {
                 $("#" + controller.contenedor_id + " #detalle").html(data);
-                $("#" + controller.contenedor_id + " #detalle button[data-action='update']").click(function (ev) {
-                    ev.preventDefault();
-                    controller.getUpdateForm($(this).attr('data-man-evento-seguimiento-id'));
-                });
-                $("#" + controller.contenedor_id + " #detalle button[data-action='delete']").click(function (ev) {
-                    ev.preventDefault();
-                    controller.delete($(this).attr('data-man-evento-seguimiento-id'));
-                });
+                console.log("Estoy en recargar detalle..." + data)
+                
             }).error(function (e) {
                 alert("Problemas al cargar el detalle para el paciente");
             });
-
         },
         init: function () {
             console.log("comenzando...")
             var controller = this;
-            $("#" + controller.contenedor_id + " #btnNuevoSeguimiento").click(function () {
-                controller.getForm();
-            });
-            controller.recargarDetalle();
-            controller.form_container = $("#" + controller.contenedor_id + " #form_container").dialog({
-                autoOpen: false,
-                'modal': true,
-                'width': '500px',
-                title: 'Crear Seguimiento'
-            }).css({overflow: "auto"});
-            controller.report_viewer_container = $("#" + controller.contenedor_id + " #report_viewer_container").dialog({
-                autoOpen: false,
-                'modal': true,
-                'width': '500',
-                'height': '500',
-                title: 'Reporte'
-            }).css({overflow: "scroll"});
-        }
+            controller.recargarDetalle();   }
     };
+    
     $(document).ready(function(){
         man_evento_view_detalle_controller.init();
     });
 JS;
 $this->registerJs($script, yii\web\View::POS_READY);
-
 ?>
+
+
 
 <div id='man_evento_view_seguimientos' class="row">    
     <div class="panel panel-info">
@@ -69,7 +63,7 @@ $this->registerJs($script, yii\web\View::POS_READY);
                 
                 <div class="col-sm-4">
                     <p>
-                    <?= Html::a('Nuevo Seguimiento', '',//
+                    <?= Html::a('Nuevo Seguimiento', '',
                             ['id' => 'newSeguimientojs',//only to js
                             'class' => 'btn btn-default',
                             'data-toggle' => 'modal',

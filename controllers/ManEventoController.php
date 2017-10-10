@@ -28,6 +28,7 @@ class ManEventoController extends Controller
                     'delete' => ['POST'],
                 ],
             ],
+            
         ];
     }
 
@@ -173,31 +174,28 @@ class ManEventoController extends Controller
         ]);
     }
     
-    
-    public function actionViewAjax($id) {
-        $model = $this->loadModel($id);
-        $this->renderPartial('newSeguimiento', array('model' => $model));
-    }
-
-    /**
-     * Displays a particular model, only the record data
-     * @param integer $id the ID of the model to be displayed
-     */
-    public function actionViewContentAjax($id) {
-        $this->renderPartial('_view', array('data' => $this->loadModel($id)));
-    }
-    
-    public function actionViewSeguimientosAjax($id){
-        $model = $this->loadModel($id);
-        $this->renderPartial('viewSeguimientosAjax',array('model'=>$model));
-    }
-    
+        
     public function actionIndexSeguimientosForEventoAjax($id){
-        //die("_bnbnbbn");
-        //$criterio = new CDbCriteria();
-        $criterio->addCondition('t.man_evento_id = '.$id);
-        $modelos = ManEventoSeguimiento::find()->findAll($criterio);
-        $this->renderPartial('indexSeguimientosForEventoAjax',array('modelos'=>$modelos));
+
+        $modelos = ManEventoSeguimiento::find()->where(['man_evento_id' => $id])->All();
+        return $this->render('indexSeguimientosForEventoAjax',['modelos'=>$modelos]);
+        
     }
+    
+    public function actionDeleteSeguimientoAjax($id) {
+        if (Yii::app()->user->checkAccess('deleteManEvento')) {
+            if (Yii::app()->request->isPostRequest) {
+                $this->loadModelSeguimiento($id)->delete();
+                echo "";
+                return;
+            } else
+                throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+        }else {
+            echo "No se encuentra autorizado para realizar esta operaci&oacute;n";
+            return;
+        }
+    }
+    
+    
     
 }           

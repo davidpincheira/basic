@@ -7,15 +7,11 @@
                     <div class="col-sm-4">
                         <strong>Fecha: </strong><?php echo $modelo->fecha; ?>
                     </div>
-                    <div class="col-sm-4">
-                        <strong>Usuario: </strong><?php echo $modelo->cli_profesional_actuante?$modelo->cli_profesional_actuante->nombre:$modelo->cli_profesional_actuante_id; ?>
-                    </div>                       
+                              
                     <div class="col-sm-4" id="acciones">
-                        <button type="button" class="btn btn-default" aria-label="Left Align" data-action="update" title="Editar" data-man-evento-seguimiento-id="<?php echo $modelo->id; ?>">
-                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                        <button type="button" class="glyphicon glyphicon-pencil" aria-label="Left Align" data-action="update" title="Editar" data-man-evento-seguimiento-id="<?php echo $modelo->id; ?>">
                         </button>
-                        <button type="button" class="btn btn-default" aria-label="Left Align" data-action="delete" title="Eliminar" data-man-evento-seguimiento-id="<?php echo $modelo->id; ?>">
-                            <i class="fa fa-times" aria-hidden="true"></i>
+                        <button type="button" class="glyphicon glyphicon-trash" aria-label="Left Align" data-action="delete" title="Eliminar" data-man-evento-seguimiento-id="<?php echo $modelo->id; ?>">
                         </button>
                     </div>                
                 </div>
@@ -29,6 +25,7 @@
                 </div>
             </div>
         </div>
+
     <?php endforeach; ?>    
 <?php else: ?>
     <div class='panel panel-default'>
