@@ -13,6 +13,7 @@
                         </button>
                         <button type="button" class="glyphicon glyphicon-trash" aria-label="Left Align" data-action="delete" title="Eliminar" data-man-evento-seguimiento-id="<?php echo $modelo->id; ?>">
                         </button>
+                        
                     </div>                
                 </div>
             </div>

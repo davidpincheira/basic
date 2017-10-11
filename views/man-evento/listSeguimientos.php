@@ -4,11 +4,12 @@ use yii\helpers\Url;
 
 
 $url_detalle = Url::to(['index-seguimientos-for-evento-ajax', 'id'=>$model->id]);
-$url_eliminar = Url::to(['eliminarSeguimientoAjax']);
+$url_eliminar = Url::to(['eliminar-seguimiento-ajax']);
     $script = <<< JS
     var man_evento_view_detalle_controller = {
         contenedor_id: 'man_evento_view_seguimientos',
         detail_url: '$url_detalle',
+        delete_url: '$url_eliminar',
         form_container: null,
         report_viewer_container: null,
         report_viewer: null,
@@ -16,8 +17,8 @@ $url_eliminar = Url::to(['eliminarSeguimientoAjax']);
         delete: function (id) {
             var controller = this;
             if (confirm("Esta seguro de Borrar el Seguimiento id: " + id + "?")) {
-                $.post( controller.url_eliminar + '&id=' + id).done(function (data) {
-                    if (!data) {
+                $.post( controller.delete_url + '&id=' + id).done(function (data) {
+                    if (!data) {console.log('estamos aca!');
                         controller.recargarDetalle();
                     } else {
                         alert("Error: " + data);
@@ -32,14 +33,16 @@ $url_eliminar = Url::to(['eliminarSeguimientoAjax']);
             var controller = this;
             $.get(controller.detail_url).done(function (data) {
                 $("#" + controller.contenedor_id + " #detalle").html(data);
-                console.log("Estoy en recargar detalle..." + data)
+                $("#" + controller.contenedor_id + " #detalle button[data-action='delete']").click(function (ev) {
+                        ev.preventDefault();
+                        controller.delete($(this).attr('data-man-evento-seguimiento-id'));
+                    });
                 
             }).error(function (e) {
                 alert("Problemas al cargar el detalle para el paciente");
             });
         },
         init: function () {
-            console.log("comenzando...")
             var controller = this;
             controller.recargarDetalle();   }
     };

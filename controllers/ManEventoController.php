@@ -26,8 +26,11 @@ class ManEventoController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
+                    //'eliminarSeguimientoAjax',
                 ],
+            
             ],
+            
             
         ];
     }
@@ -144,7 +147,7 @@ class ManEventoController extends Controller
     /////////////////////////////////*AJAX *////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////
         
-    public function actionNewseguimiento($man_evento_id)
+    public function actionNewseguimiento($man_evento_id)//Agrego un nuevo seguimiento
     {
         $model = new ManEventoSeguimiento();
 
@@ -162,39 +165,33 @@ class ManEventoController extends Controller
             'model' => $model
             ]);
         }
-    }
-    
-    public function actionListSeguimientos($id){
-        $searchModel = new ManEventoSearch();
-        $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
-
-        return $this->render('listSeguimientos', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
-        ]);
-    }
-    
+    }       
         
-    public function actionIndexSeguimientosForEventoAjax($id){
+    public function actionIndexSeguimientosForEventoAjax($id){//Agrego y listo el nuevo seguimiento
 
         $modelos = ManEventoSeguimiento::find()->where(['man_evento_id' => $id])->All();
         return $this->render('indexSeguimientosForEventoAjax',['modelos'=>$modelos]);
         
     }
     
-    public function actionDeleteSeguimientoAjax($id) {
+    public function actionEliminarSeguimientoAjax($id) {//Elimino un seguimiento
+        
         if (Yii::app()->user->checkAccess('deleteManEvento')) {
             if (Yii::app()->request->isPostRequest) {
                 $this->loadModelSeguimiento($id)->delete();
                 echo "";
                 return;
             } else
-                throw new CHttpException(400, 'Invalid request. Please do not repeat this request again.');
+                throw new HttpException(400, 'Invalid request. Please do not repeat this request again.');
         }else {
             echo "No se encuentra autorizado para realizar esta operaci&oacute;n";
             return;
         }
     }
+    
+    
+    
+    
     
     
     

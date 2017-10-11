@@ -38,6 +38,12 @@ $config = [
                 ],
             ],
         ],
+        'authManager' => [
+            'class' => 'yii\rbac\PhpManager',
+        ],
+        'authManager' => [
+            'class' => 'yii\rbac\DbManager',
+        ],
         'db' => $db,
         /*
         'urlManager' => [

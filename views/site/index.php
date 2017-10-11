@@ -1,29 +1,3 @@
-<link rel="stylesheet" href="assets/jquery-ui/css/start/jquery-ui-1.10.4.custom.min.css">
-<link rel="stylesheet" href="assets/jquery-ui/css/ui.jqgrid.css">
-<link rel="stylesheet" href="assets/jquery-ui/css/aciTree.css">
-<link rel="stylesheet" href="assets/jquery-ui/css/jqtree.css">
-<link rel="stylesheet" href="assets/jquery-ui/css/jq.layout.css">
-<link rel="stylesheet" href="assets/tinymce/js/tinymce/plugins/mention/css/autocomplete.css">
-<link rel="stylesheet" href="assets/morris/morris.css">
-<link rel="stylesheet" href="assets/jquery-ui/css/bootstrap-overrides.css">
-<link rel="stylesheet" href="assets/jquery-ui/css/bootstrap.min.css">
-<link rel="stylesheet" href="assets/jquery-ui/css/font-awesome.min.css">
-<link rel="stylesheet" href="assets/jquery-ui/css/animate.css"> 
-<link rel="stylesheet" href="assets/jquery-ui/css/styles_base.css">
-
-<script src="assets/jquery-ui/js/jquery-1.10.2.js"></script>
-<script src="assets/jquery-ui/js/jquery-ui-1.10.4.custom.min.js"></script>
-<script src="assets/jquery-ui/js/jquery.layout-latest.min.js"></script>
-<script src="assets/jquery-ui/js/grid.locale-es.js"></script>
-<script src="assets/jquery-ui/js/jquery.jqGrid.min.js"></script>
-<link rel="stylesheet" href="assets/jquery-ui/css/customcombobox.css">
-<script src="assets/jquery-ui/js/plugins/customcombobox.js"></script>
-<script src="assets/jquery-ui/js/plugins/jquery.mask.min.js"></script>
-<script src="assets/jquery-ui/js/jquery.aciPlugin.min.js"></script>
-<script src="assets/jquery-ui/js/jquery.aciTree.min.js"></script>
-<script src="assets/jquery-ui/js/tree.jquery.js"></script>
-
-
 <?php
 
 /* @var $this yii\web\View */
