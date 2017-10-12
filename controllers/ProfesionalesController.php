@@ -66,9 +66,9 @@ class ProfesionalesController extends Controller
         $model = new Profesionales();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->idprofesional]);
+            return $this->redirect(['profesionales/index']);
         } else {
-            return $this->render('create', [
+            return $this->renderPartial('create', [
                 'model' => $model,
             ]);
         }

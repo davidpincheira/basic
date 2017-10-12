@@ -176,17 +176,11 @@ class ManEventoController extends Controller
     
     public function actionEliminarSeguimientoAjax($id) {//Elimino un seguimiento
         
-        if (Yii::app()->user->checkAccess('deleteManEvento')) {
-            if (Yii::app()->request->isPostRequest) {
-                $this->loadModelSeguimiento($id)->delete();
-                echo "";
-                return;
-            } else
-                throw new HttpException(400, 'Invalid request. Please do not repeat this request again.');
-        }else {
-            echo "No se encuentra autorizado para realizar esta operaci&oacute;n";
-            return;
-        }
+        $this->findModel($id)->delete();
+             
+        return $this->redirect(['index']);
+        
+       
     }
     
     

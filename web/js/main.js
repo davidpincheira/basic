@@ -35,3 +35,36 @@ $(document).on('click', '#newSeguimientojs',(function() {
             );
         })
     );
+
+$(document).on('click', '#create-profesional', (function() {
+        $.get(
+            $(this).data('url'),
+            function (data) {
+                $('.modal-body').html(data);
+                //$('#modal').find('button[type="submit"]').addClass('btn btn-danger').click(function(recibirParametros){console.log('Mostrando');recibirParametros.preventDefault()});
+                $('#modal').modal();
+            }
+        );
+    }));
+    
+$(document).on('click', '#create-sector', (function() {
+    $.get(
+        $(this).data('url'),
+        function (data) {
+            $('.modal-body').html(data);
+            //$('#modal').find('button[type="submit"]').addClass('btn btn-danger').click(function(recibirParametros){console.log('Mostrando');recibirParametros.preventDefault()});
+            $('#modal').modal();
+        }
+    );
+}));
+
+$(document).on('click', '#create-lugar', (function() {
+    $.get(
+        $(this).data('url'),
+        function (data) {
+            $('.modal-body').html(data);
+            //$('#modal').find('button[type="submit"]').addClass('btn btn-danger').click(function(recibirParametros){console.log('Mostrando');recibirParametros.preventDefault()});
+            $('#modal').modal();
+        }
+    );
+}));

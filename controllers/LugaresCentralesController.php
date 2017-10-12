@@ -66,10 +66,11 @@ class LugaresCentralesController extends Controller
         $model = new LugaresCentrales();
 
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-            return $this->redirect(['view', 'id' => $model->id]);
+            //return $this->redirect(['view', 'id' => $model->id]);
+            return $this->redirect(['lugares-centrales/index']);
         } else {
             $model->estado = 1;
-            return $this->render('create', [
+            return $this->renderPartial('create', [
                 'model' => $model,
             ]);
         }

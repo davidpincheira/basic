@@ -16,6 +16,9 @@ use Yii;
  */
 class LugaresCentrales extends \yii\db\ActiveRecord
 {
+    
+    public static $opciones_lugares = array(0=>'Inactivo', 1=>'Activo');
+
     /**
      * @inheritdoc
      */

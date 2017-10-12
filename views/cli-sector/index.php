@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\grid\GridView;
+use yii\helpers\Url;
 
 /* @var $this yii\web\View */
 /* @var $searchModel app\models\CliSectorSearch */
@@ -13,11 +14,21 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="cli-sector-index">
 
     <h1><?= Html::encode($this->title) ?></h1>
-    <?php // echo $this->render('_search', ['model' => $searchModel]); ?>
-
+    
     <p>
-        <?= Html::a('Create Cli Sector', ['create'], ['class' => 'btn btn-success']) ?>
+        <?= Html::a('Nuevo Sector', '',//Boton de nueva incidencia
+                ['id' => 'create-sector',
+                'class' => 'btn btn-success',
+                'data-toggle' => 'modal',
+                'data-target' => '#modal',
+                'data-url' => Url::to(['create']),
+                'data-pjax' => '0', ]); ?>         
     </p>
+    <?php
+        yii\bootstrap\Modal::begin(['id' =>'modal']);
+        yii\bootstrap\Modal::end();
+    ?>
+   
     <?= GridView::widget([
         'dataProvider' => $dataProvider,
         'filterModel' => $searchModel,
