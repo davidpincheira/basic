@@ -6,7 +6,7 @@ use yii\helpers\Html;
 /* @var $this yii\web\View */
 /* @var $model app\models\CliSector */
 
-$this->title = 'Create Cli Sector';
+$this->title = 'Crear Sector';
 $this->params['breadcrumbs'][] = ['label' => 'Cli Sectors', 'url' => ['index']];
 $this->params['breadcrumbs'][] = $this->title;
 ?>

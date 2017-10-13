@@ -8,7 +8,7 @@ use yii\helpers\Url;
 /* @var $searchModel app\models\CliSectorSearch */
 /* @var $dataProvider yii\data\ActiveDataProvider */
 
-$this->title = 'Cli Sectors';
+$this->title = 'Sectores';
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="cli-sector-index">

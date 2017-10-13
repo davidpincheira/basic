@@ -12,7 +12,7 @@ use yii\widgets\ActiveForm;
 
     <?php $form = ActiveForm::begin(); ?>
 
-    <?= $form->field($model, 'titulo')->textInput(['maxlength' => true, 'style'=>'width:47%']) ?>
+    <?= $form->field($model, 'titulo')->textInput(['maxlength' => true, 'style'=>'width:80%']) ?>
 
     <?= $form->field($model, 'detalle_evento')->textarea(['maxlength' => true, 'style'=>'width:47%']) ?>
     

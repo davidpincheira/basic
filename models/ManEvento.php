@@ -22,21 +22,19 @@ use Yii;
  * @property CliSector $cliSector
  * @property ManEventoSeguimiento[] $manEventoSeguimientos
  */
-class ManEvento extends \yii\db\ActiveRecord
-{
-    public static $opciones_estado = array(1=>'Nuevo', 2=>'Visto', 3=>'Pendiente de Aprobacion', 4=>'Pendiente de Compra',5=>'Pendiente de Servicio Externo', 6=>'Resuelto');
-
+class ManEvento extends \yii\db\ActiveRecord {
     
-    public static function tableName()
-    {
+
+    public static $opciones_estado = array(1 => 'Nuevo', 2 => 'Visto', 3 => 'Pendiente de Aprobacion', 4 => 'Pendiente de Compra', 5 => 'Pendiente de Servicio Externo', 6 => 'Resuelto');
+
+    public static function tableName() {
         return 'man_evento';
     }
 
     /**
      * @inheritdoc
      */
-    public function rules()
-    {
+    public function rules() {
         return [
             [['titulo', 'detalle_evento', 'fecha', 'estado', 'cli_sector_id'], 'required'],
             [['fecha', 'fecha_visto', 'fecha_finalizacion', 'fecha_finalizacion_real', 'baja_fecha'], 'safe'],
@@ -51,8 +49,7 @@ class ManEvento extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
-    public function attributeLabels()
-    {
+    public function attributeLabels() {
         return [
             'id' => 'ID',
             'titulo' => 'Titulo',
@@ -71,16 +68,17 @@ class ManEvento extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getCliSector()
-    {
+    public function getCliSector() {
         return $this->hasOne(CliSector::className(), ['id' => 'cli_sector_id']);
     }
 
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getManEventoSeguimientos()
-    {
+    public function getManEventoSeguimientos() {
         return $this->hasMany(ManEventoSeguimiento::className(), ['man_evento_id' => 'id']);
     }
+
+    
+
 }

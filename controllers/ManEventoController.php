@@ -14,24 +14,20 @@ use yii\filters\VerbFilter;
 /**
  * ManEventoController implements the CRUD actions for ManEvento model.
  */
-class ManEventoController extends Controller
-{
+class ManEventoController extends Controller {
+
     /**
      * @inheritdoc
      */
-    public function behaviors()
-    {
+    public function behaviors() {
         return [
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'delete' => ['POST'],
-                    //'eliminarSeguimientoAjax',
+                //'eliminarSeguimientoAjax',
                 ],
-            
             ],
-            
-            
         ];
     }
 
@@ -39,14 +35,13 @@ class ManEventoController extends Controller
      * Lists all ManEvento models.
      * @return mixed
      */
-    public function actionIndex()
-    {
+    public function actionIndex() {
         $searchModel = new ManEventoSearch();
         $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
         return $this->render('index', [
-            'searchModel' => $searchModel,
-            'dataProvider' => $dataProvider,
+                    'searchModel' => $searchModel,
+                    'dataProvider' => $dataProvider,
         ]);
     }
 
@@ -55,62 +50,57 @@ class ManEventoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionView($id)
-    {              
+    public function actionView($id) {
         if (Yii::$app->request->isAjax) {
             return $this->renderAjax('view', [
-                'model' => $this->findModel($id),
+                        'model' => $this->findModel($id),
             ]);
         } else {
             return $this->render('view', [
-                'model' => $this->findModel($id), 
-                
+                        'model' => $this->findModel($id),
             ]);
         }
     }
-        
+
     /**
      * Creates a new ManEvento model.
      * If creation is successful, the browser will be redirected to the 'view' page.
      * @return mixed
      */
-    public function actionCreate()
-    {
+    public function actionCreate() {
         $model = new ManEvento();
-        $model->fecha=date("Y-m-d H:i:s");
+        $model->fecha = date("Y-m-d H:i:s");
         $model->estado = "1";
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-           return $this->redirect(['man-evento/index']);
-        }
-        else {
-        
+            return $this->redirect(['man-evento/index']);
+        } else {
+
             $cli_sectores = CliSector::find()->all();
-            
+
             syslog(LOG_NOTICE, print_r($cli_sectores, true));
-            
+
             return $this->renderPartial('create', [
-                'model' => $model, 'cli_sectores'=>$cli_sectores
+                        'model' => $model, 'cli_sectores' => $cli_sectores
             ]);
         }
     }
-     
+
     /**
      * Updates an existing ManEvento model.
      * If update is successful, the browser will be redirected to the 'view' page.
      * @param integer $id
      * @return mixed
      */
-    public function actionUpdate($id)
-    {
+    public function actionUpdate($id) {
         $model = $this->findModel($id);
-        $model->estado="1";
+        $model->estado = "1";
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
             return $this->redirect(['man-evento/index']);
         } else {
             $cli_sectores = CliSector::find()->all();
-            
+
             return $this->renderPartial('update', [
-                'model' => $model, 'cli_sectores'=>$cli_sectores
+                        'model' => $model, 'cli_sectores' => $cli_sectores
             ]);
         }
     }
@@ -121,11 +111,17 @@ class ManEventoController extends Controller
      * @param integer $id
      * @return mixed
      */
-    public function actionDelete($id)
-    {
-        $this->findModel($id)->delete();
+    public function actionDelete($id) {
+
+
+        $model = $this->findModel($id);
+        $model->baja_fecha = date("Y-m-d H:i:s");
+        $model->load(Yii::$app->request->post()) && $model->save();
+          //  return $this->redirect(['index']);
         
-        return $this->redirect(['index']);
+
+            return $this->redirect(['index']);
+       
     }
 
     /**
@@ -135,58 +131,46 @@ class ManEventoController extends Controller
      * @return ManEvento the loaded model
      * @throws NotFoundHttpException if the model cannot be found
      */
-    protected function findModel($id)
-    {
+    protected function findModel($id) {
         if (($model = ManEvento::findOne($id)) !== null) {
             return $model;
         } else {
             throw new NotFoundHttpException('The requested page does not exist.');
         }
     }
+
     /////////////////////////////////////////////////////////////////////////////////////////////
     /////////////////////////////////*AJAX *////////////////////////////////////////////////////
     ////////////////////////////////////////////////////////////////////////////////////////////
-        
-    public function actionNewseguimiento($man_evento_id)//Agrego un nuevo seguimiento
-    {
+
+    public function actionNewseguimiento($man_evento_id) {//Agrego un nuevo seguimiento
         $model = new ManEventoSeguimiento();
 
-        $model->fecha=date("Y-m-d H:i:s");
-        $model->cli_profesional_actuante_id= 2;
-        
+        $model->fecha = date("Y-m-d H:i:s");
+        $model->cli_profesional_actuante_id = 2;
+
         if ($model->load(Yii::$app->request->post()) && $model->save()) {
-           //return $this->redirect(['man-evento/newSeguimiento']);
+            //return $this->redirect(['man-evento/newSeguimiento']);
             return $this->redirect(['view', 'id' => $man_evento_id]);
-        }
-        else {
-                           
-            $model->man_evento_id=$man_evento_id;    
+        } else {
+
+            $model->man_evento_id = $man_evento_id;
             return $this->renderPartial('newSeguimiento', [
-            'model' => $model
+                        'model' => $model
             ]);
         }
-    }       
-        
-    public function actionIndexSeguimientosForEventoAjax($id){//Agrego y listo el nuevo seguimiento
+    }
 
+    public function actionIndexSeguimientosForEventoAjax($id) {//Agrego y listo el nuevo seguimiento
         $modelos = ManEventoSeguimiento::find()->where(['man_evento_id' => $id])->All();
-        return $this->render('indexSeguimientosForEventoAjax',['modelos'=>$modelos]);
-        
+        return $this->render('indexSeguimientosForEventoAjax', ['modelos' => $modelos]);
     }
-    
+
     public function actionEliminarSeguimientoAjax($id) {//Elimino un seguimiento
-        
-        $this->findModel($id)->delete();
-             
-        return $this->redirect(['index']);
-        
-       
+        if (($model = ManEventoSeguimiento::findOne($id)) !== null) {
+            $model->delete();
+        }
+        return;
     }
-    
-    
-    
-    
-    
-    
-    
-}           
+
+}

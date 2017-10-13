@@ -26,6 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'cli_sector_id',
             'cli_profesional_actuante_id',
             'estado',
+            'baja_fecha',
         ],
     ]) ?>
     
