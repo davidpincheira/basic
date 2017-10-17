@@ -4,20 +4,20 @@ use yii\helpers\Html;
 use yii\widgets\ActiveForm;
 
 /* @var $this yii\web\View */
-/* @var $model app\models\CliEdificio */
+/* @var $model app\models\ManEvento */
 /* @var $form yii\widgets\ActiveForm */
+$this->title = 'Nuevo Edificio'; 
 ?>
-
-<div class="cli-edificio-form">
+<?php ?>
+<div class="cli-edificio-form">  
 
     <?php $form = ActiveForm::begin(); ?>
-
-    <?= $form->field($model, 'nombre')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'direccion')->textInput(['maxlength' => true]) ?>
-
-    <?= $form->field($model, 'baja_fecha')->textInput() ?>
-
+    <h1><?= Html::encode($this->title) ?></h1>
+    
+    <?= $form->field($model,'nombre')->textInput() ?> 
+    <?= $form->field($model,'direccion')->textInput() ?> 
+    <?= $form->field($model,'baja_fecha')->textInput() ?> 
+            
     <div class="form-group">
         <?= Html::submitButton($model->isNewRecord ? 'Crear' : 'Actualizar', ['class' => $model->isNewRecord ? 'btn btn-success' : 'btn btn-primary']) ?>
     </div>
