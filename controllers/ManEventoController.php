@@ -172,5 +172,19 @@ class ManEventoController extends Controller {
         }
         return;
     }
+    
+    public function actionActualizarSeguimientoAjax($id) {
+        
+            $model = $this->$id;
+            // Uncomment the following line if AJAX validation is needed
+            // $this->performAjaxValidation($model);
+
+            if (isset($_POST['ManEventoSeguimiento'])) {
+                $model->attributes = $_POST['ManEventoSeguimiento'];
+                
+            }
+            $this->renderPartial('_form_seguimiento', array('model' => $model));
+        
+    }
 
 }

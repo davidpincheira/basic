@@ -4,16 +4,7 @@
  * and open the template in the editor.
  */
 
-$(document).on('click', '#create-incidencia', (function () {
-    $.get(
-            $(this).data('url'),
-            function (data) {
-                $('.modal-body').html(data);
-                //$('#modal').find('button[type="submit"]').addClass('btn btn-danger').click(function(recibirParametros){console.log('Mostrando');recibirParametros.preventDefault()});
-                $('#modal').modal();
-            }
-    );
-}));
+
 
 $(document).on('click', 'a[data-action ="update"]', (function () {
     $.get(
@@ -25,27 +16,6 @@ $(document).on('click', 'a[data-action ="update"]', (function () {
     );
 }));
 
-$(document).on('click', '#newSeguimientojs', (function () {
-    $.get(
-            $(this).data('url'),
-            function (data) {
-                $('.modal-body').html(data);
-                $('#modal').modal();
-            }
-    );
-})
-        );
-
-$(document).on('click', '#create-profesional', (function () {
-    $.get(
-            $(this).data('url'),
-            function (data) {
-                $('.modal-body').html(data);
-                //$('#modal').find('button[type="submit"]').addClass('btn btn-danger').click(function(recibirParametros){console.log('Mostrando');recibirParametros.preventDefault()});
-                $('#modal').modal();
-            }
-    );
-}));
 
 $(document).on('click', '#create-sector', (function () {
     $.get(
@@ -58,71 +28,258 @@ $(document).on('click', '#create-sector', (function () {
     );
 }));
 
-$(document).on('click', '#create-lugar', (function () {
-    $.get(
-            $(this).data('url'),
-            function (data) {
-                $('.modal-body').html(data);
-                //$('#modal').find('button[type="submit"]').addClass('btn btn-danger').click(function(recibirParametros){console.log('Mostrando');recibirParametros.preventDefault()});
-                $('#modal').modal();
-            }
-    );
-}));
 
-$(document).on('click', '#create-edificio', (function () {  //llamo a la funcion cuando hay un click en el id create-edificio que es un boton
-    var create_url = $(this).data('url');                   //se guarda la url del tag (data-url) (/prueba/web/index.php?r=cli-edificio%2Fcreate)
-    $.get(                                                  //solicitud ajax por la cual se envian los datos
-            create_url,                     
+//////////////////////////Edificios/////////////////////
+var cli_edificio_controller = {
+    create_url:'',
+    form: null,
+    getFormCreate: function(){
+        var controller = this;
+        $.get(                                                  //solicitud ajax por la cual se envian los datos
+            controller.create_url,                     
             function (data) {                               //recibo por parametro la respuesta html
                 $('.modal-body').html(data);                //muestro los campos que traigo en data a traves de un modal
-                var form = $('.modal-body').find('form');   //busco los campos que estan contenidos en el form y los guardo **********<<<<<---------------
-                $('.modal-body').find('button[type="submit"]').addClass('btn btn-danger').click( //en el modal busco al unico submit que hay y al hacer click muestro el 1er error
-                        
-                        function (ev) {
-                            console.log("1");
-                            ev.preventDefault();            //cancela la accion por defecto 
-                            $.post(create_url, $(form).serialize(), function (data) { //envia a la url los datos que estan en el formulario
-                                if (data) {                 //verifica si hay contenido html
-                                    console.log("2");
-                                    
-                                    
-                                                    $('.modal-body').html(data);//devuelve el contenido con errores al modal
-                                                    var form = $('.modal-body').find('form');//***********repite de lo de arriba
-
-                                                    $('.modal-body').find('button[type="submit"]').addClass('btn btn-danger').click(
-                                                            function (ev) {
-                                                                console.log("3");
-                                                                ev.preventDefault();
-                                                                $.post(create_url, $(form).serialize(), function (data) {
-                                                                    if (data) {
-                                                                        $('.modal-body').html(data);
-                                                                        var form = $('.modal-body').find('form');
-                                                                        console.log("estoy en el if");
-                                                                        //es por que me vuelve el formulario con errores
-                                                                    } else {
-                                                                        //es por que se creo el registro de forma exitosa
-                                                                        console.log("se creo con exito");
-                                                                    }
-                                                                    console.log("exito1");
-                                                                }).error(function () {
-                                                                    console.log("error");
-                                                                });
-                                                            }
-                                                    );
-                                                    //es por que me vuelve el formulario con errores
-                                    
-                                    
-                                } else {
-                                    //es por que se creo el registro de forma exitosa
-                                }
-                                console.log("exito2");
-                            }).error(function () {
-                                console.log("error");
-                            });
-                        }
+                controller.form = $('.modal-body').find('form');   //busco los campos que estan contenidos en el form y los guardo **********<<<<<---------------
+                $('.modal-body').find('button[type="submit"]').addClass('btn btn-success').click( //en el modal busco al unico submit que hay y al hacer click muestro el 1er error
+                    function(ev){
+                        ev.preventDefault();
+                        controller.sendFormCreate();
+                    }
                 );
-                $('#modal').modal();
-            }
-    );
-}));
+            });
+    },
+    sendFormCreate: function(){
+        var controller = this;
+        $.post(controller.create_url, $(controller.form).serialize()).done( 
+                function (data) {
+                    if (data) {
+                           $('.modal-body').html(data);
+                           controller.form = $('.modal-body').find('form');
+                           $('.modal-body').find('button[type="submit"]').addClass('btn btn-success').click( //en el modal busco al unico submit que hay y al hacer click muestro el 1er error
+                                function(ev){
+                                    ev.preventDefault();
+                                    controller.sendFormCreate();
+                                }
+                           );
+                       } else {
+                           console.log("se creo con exito");
+                       }
+                }).error(function () {
+                    console.log("error");
+                });
+    },
+    init: function(){
+        var controller = this;
+        $('#create-edificio').click(function(){
+            controller.create_url = $(this).data('url');
+            controller.getFormCreate();
+        });
+    }
+};
+$(document).ready(function(){
+    cli_edificio_controller.init();
+});
 
+//////////////////////////LugaresCentrales/////////////////////
+var lugar_central_controller = {
+    create_url:'',
+    form: null,
+    getFormCreate: function(){
+        var controller = this;
+        $.get(                                                  //solicitud ajax por la cual se envian los datos
+            controller.create_url,                     
+            function (data) {                               //recibo por parametro la respuesta html
+                $('.modal-body').html(data);                //muestro los campos que traigo en data a traves de un modal
+                controller.form = $('.modal-body').find('form');   //busco los campos que estan contenidos en el form y los guardo **********<<<<<---------------
+                $('.modal-body').find('button[type="submit"]').addClass('btn btn-success').click( //en el modal busco al unico submit que hay y al hacer click muestro el 1er error
+                    function(ev){
+                        ev.preventDefault();
+                        controller.sendFormCreate();
+                    }
+                );
+            });
+    },
+    sendFormCreate: function(){
+        var controller = this;
+        $.post(controller.create_url, $(controller.form).serialize()).done( 
+                function (data) {
+                    if (data) {
+                           $('.modal-body').html(data);
+                           controller.form = $('.modal-body').find('form');
+                           $('.modal-body').find('button[type="submit"]').addClass('btn btn-success').click( //en el modal busco al unico submit que hay y al hacer click muestro el 1er error
+                                function(ev){
+                                    ev.preventDefault();
+                                    controller.sendFormCreate();
+                                }
+                           );
+                       } else {
+                           console.log("se creo con exito");
+                       }
+                }).error(function () {
+                    console.log("error");
+                });
+    },
+    init: function(){
+        var controller = this;
+        $('#create-lugar').click(function(){
+            controller.create_url = $(this).data('url');
+            controller.getFormCreate();
+        });
+    }
+};
+$(document).ready(function(){
+    lugar_central_controller.init();
+});
+
+//////////////////////////Profesionales/////////////////////
+var profesional_controller = {
+    create_url:'',
+    form: null,
+    getFormCreate: function(){
+        var controller = this;
+        $.get(                                                  //solicitud ajax por la cual se envian los datos
+            controller.create_url,                     
+            function (data) {                               //recibo por parametro la respuesta html
+                $('.modal-body').html(data);                //muestro los campos que traigo en data a traves de un modal
+                controller.form = $('.modal-body').find('form');   //busco los campos que estan contenidos en el form y los guardo **********<<<<<---------------
+                $('.modal-body').find('button[type="submit"]').addClass('btn btn-success').click( //en el modal busco al unico submit que hay y al hacer click muestro el 1er error
+                    function(ev){
+                        ev.preventDefault();
+                        controller.sendFormCreate();
+                    }
+                );
+            });
+    },
+    sendFormCreate: function(){
+        var controller = this;
+        $.post(controller.create_url, $(controller.form).serialize()).done( 
+                function (data) {
+                    if (data) {
+                           $('.modal-body').html(data);
+                           controller.form = $('.modal-body').find('form');
+                           $('.modal-body').find('button[type="submit"]').addClass('btn btn-success').click( //en el modal busco al unico submit que hay y al hacer click muestro el 1er error
+                                function(ev){
+                                    ev.preventDefault();
+                                    controller.sendFormCreate();
+                                }
+                           );
+                       } else {
+                           console.log("se creo con exito");
+                       }
+                }).error(function () {
+                    console.log("error");
+                });
+    },
+    init: function(){
+        var controller = this;
+        $('#create-profesional').click(function(){
+            controller.create_url = $(this).data('url');
+            controller.getFormCreate();
+        });
+    }
+};
+$(document).ready(function(){
+    profesional_controller.init();
+});
+
+//////////////////////////Incidencias/////////////////////
+var incidencia_controller = {
+    create_url:'',
+    form: null,
+    getFormCreate: function(){
+        var controller = this;
+        $.get(                                                  //solicitud ajax por la cual se envian los datos
+            controller.create_url,                     
+            function (data) {                               //recibo por parametro la respuesta html
+                $('.modal-body').html(data);                //muestro los campos que traigo en data a traves de un modal
+                controller.form = $('.modal-body').find('form');   //busco los campos que estan contenidos en el form y los guardo **********<<<<<---------------
+                $('.modal-body').find('button[type="submit"]').addClass('btn btn-success').click( //en el modal busco al unico submit que hay y al hacer click muestro el 1er error
+                    function(ev){
+                        ev.preventDefault();
+                        controller.sendFormCreate();
+                    }
+                );
+            });
+    },
+    sendFormCreate: function(){
+        var controller = this;
+        $.post(controller.create_url, $(controller.form).serialize()).done( 
+                function (data) {
+                    if (data) {
+                           $('.modal-body').html(data);
+                           controller.form = $('.modal-body').find('form');
+                           $('.modal-body').find('button[type="submit"]').addClass('btn btn-success').click( //en el modal busco al unico submit que hay y al hacer click muestro el 1er error
+                                function(ev){
+                                    ev.preventDefault();
+                                    controller.sendFormCreate();
+                                }
+                           );
+                       } else {
+                           console.log("se creo con exito");
+                       }
+                }).error(function () {
+                    console.log("error");
+                });
+    },
+    init: function(){
+        var controller = this;
+        $('#create-incidencia').click(function(){
+            controller.create_url = $(this).data('url');
+            controller.getFormCreate();
+        });
+    }
+};
+$(document).ready(function(){
+    incidencia_controller.init();
+});
+
+//////////////////////////NewSeguimiento/////////////////////
+var seguimiento_controller = {
+    create_url:'',
+    form: null,
+    getFormCreate: function(){
+        var controller = this;
+        $.get(                                                  //solicitud ajax por la cual se envian los datos
+            controller.create_url,                     
+            function (data) {                               //recibo por parametro la respuesta html
+                $('.modal-body').html(data);                //muestro los campos que traigo en data a traves de un modal
+                controller.form = $('.modal-body').find('form');   //busco los campos que estan contenidos en el form y los guardo **********<<<<<---------------
+                $('.modal-body').find('button[type="submit"]').addClass('btn btn-success').click( //en el modal busco al unico submit que hay y al hacer click muestro el 1er error
+                    function(ev){
+                        ev.preventDefault();
+                        controller.sendFormCreate();
+                    }
+                );
+            });
+    },
+    sendFormCreate: function(){
+        var controller = this;
+        $.post(controller.create_url, $(controller.form).serialize()).done( 
+                function (data) {
+                    if (data) {
+                           $('.modal-body').html(data);
+                           controller.form = $('.modal-body').find('form');
+                           $('.modal-body').find('button[type="submit"]').addClass('btn btn-success').click( //en el modal busco al unico submit que hay y al hacer click muestro el 1er error
+                                function(ev){
+                                    ev.preventDefault();
+                                    controller.sendFormCreate();
+                                }
+                           );
+                       } else {
+                           console.log("se creo con exito");
+                       }
+                }).error(function () {
+                    console.log("error");
+                });
+    },
+    init: function(){
+        var controller = this;
+        $('#newSeguimientojs').click(function(){
+            controller.create_url = $(this).data('url');
+            controller.getFormCreate();
+        });
+    }
+};
+$(document).ready(function(){
+    seguimiento_controller.init();
+});

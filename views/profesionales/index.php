@@ -17,7 +17,7 @@ $this->params['breadcrumbs'][] = $this->title;
     
     
     <p>
-        <?= Html::a('Nuevo Profesional', '',//Boton de nueva incidencia
+        <?= Html::a('Nuevo Profesional', '',
                 ['id' => 'create-profesional',
                 'class' => 'btn btn-success',
                 'data-toggle' => 'modal',

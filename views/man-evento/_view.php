@@ -1,6 +1,6 @@
 <?php
  	
-use yii\bootstrap\Modal;
+//use yii\bootstrap\Modal;
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 

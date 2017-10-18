@@ -34,4 +34,4 @@
             <strong>No existen Seguimientos</strong>
         </div>
     </div>
-<?php endif; ?>
+<?php endif; 
