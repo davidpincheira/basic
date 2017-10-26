@@ -1,6 +1,6 @@
 <?php
 use yii\helpers\Html;
-use yii\helpers\Url; 
+use yii\helpers\Url;
 
 
 $url_detalle = Url::to(['index-seguimientos-for-evento-ajax', 'id'=>$model->id]);
@@ -30,8 +30,6 @@ $url_actualizar = Url::to(['actualizar-seguimiento-ajax']);
                 });
             }
         },
-            
-            
             
         getUpdateForm: function (id) {
             var controller = this;
@@ -71,12 +69,11 @@ $url_actualizar = Url::to(['actualizar-seguimiento-ajax']);
         },
             
             
-                
         recargarDetalle: function () {
             var controller = this;
             $.get(controller.detail_url).done(function (data) {
                 $("#" + controller.contenedor_id + " #detalle").html(data);
-                $("#" + controller.contenedor_id + " #detalle button[data-action='update']").click(function (ev) {
+                $("#" + controller.contenedor_id + " #detalle button[data-action='update']").click(function (ev) { 
                         ev.preventDefault();
                         controller.getUpdateForm($(this).attr('data-man-evento-seguimiento-id'));
                     });
@@ -91,7 +88,8 @@ $url_actualizar = Url::to(['actualizar-seguimiento-ajax']);
         },
         init: function () {
             var controller = this;
-            controller.recargarDetalle();   }
+            controller.recargarDetalle();
+                }
     };
     
     $(document).ready(function(){
@@ -121,11 +119,13 @@ $this->registerJs($script, yii\web\View::POS_READY);
                             'data-url' => Url::to(['newseguimiento','man_evento_id'=>$model->id]),//at the view
                             'data-pjax' => '0', ]); ?>         
                 </p>
+                
                 </div>
             </div>
         </div>
         
-        <div class="panel-body" id="detalle"></div>
+        <div class="panel-body" id="detalle"></div>.
+        
         <hr />
         
         <div id="form_container"></div>

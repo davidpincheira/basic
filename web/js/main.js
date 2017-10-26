@@ -17,6 +17,8 @@ $(document).on('click', 'a[data-action ="update"]', (function () {
 }));
 
 
+
+
 $(document).on('click', '#create-sector', (function () {
     $.get(
             $(this).data('url'),
@@ -275,6 +277,10 @@ var seguimiento_controller = {
     init: function(){
         var controller = this;
         $('#newSeguimientojs').click(function(){
+            controller.create_url = $(this).data('url');
+            controller.getFormCreate();
+        });
+        $('#updateSeguimientojs').click(function(){
             controller.create_url = $(this).data('url');
             controller.getFormCreate();
         });

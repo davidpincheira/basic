@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\widgets\DetailView;
 use yii\helpers\Url;
-use yii\grid\GridView;
+//use yii\grid\GridView;
 
 /* @var $this yii\web\View */
 /* @var $model app\models\ManEvento*/
@@ -47,6 +47,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'data-url' => Url::to(['update', 'id' => $model->id]),                            
                         ]);
         ?>
+
         <?= Html::a('Eliminar', ['delete', 'id' => $model->id], [
             'class' => 'btn btn-danger',
             'data' => [

@@ -2,14 +2,14 @@
 
 namespace app\controllers;
 
-use Yii;
 use app\models\CliSector;
 use app\models\ManEvento;
 use app\models\ManEventoSearch;
 use app\models\ManEventoSeguimiento;
+use Yii;
+use yii\filters\VerbFilter;
 use yii\web\Controller;
 use yii\web\NotFoundHttpException;
-use yii\filters\VerbFilter;
 
 /**
  * ManEventoController implements the CRUD actions for ManEvento model.
@@ -104,6 +104,8 @@ class ManEventoController extends Controller {
             ]);
         }
     }
+    
+    
 
     /**
      * Deletes an existing ManEvento model.
@@ -173,18 +175,55 @@ class ManEventoController extends Controller {
         return;
     }
     
-    public function actionActualizarSeguimientoAjax($id) {
+  /*  
+    public function actionActualizarSeguimiento($id) {
         
-            $model = $this->$id;
+        $model= ManEventoSeguimiento::find()->where(['man_evento_id' => $id])->All();
+        
+        
+        if ($model->load(Yii::$app->request->post()) && $model->save()) {
+            return $this->redirect(['man-evento/index']);
+        } else {
+            return $this->render('update', [
+                        'model' => $model
+            ]);
+        }
+    }*/
+    
+    public function actionActualizarSeguimientoAjax($id) {
+            $model = $this->loadModelSeguimiento($id);
             // Uncomment the following line if AJAX validation is needed
             // $this->performAjaxValidation($model);
 
             if (isset($_POST['ManEventoSeguimiento'])) {
                 $model->attributes = $_POST['ManEventoSeguimiento'];
-                
+                if ($model->save()) {
+                    if (isset($_POST['ManEvento'])) {
+                        $model_evento = $model->man_evento;
+                        $model_evento->estado = $_POST['ManEvento']['estado'];
+                        if($model_evento->estado == 5){
+                            $model_evento->fecha_finalizacion = date("d/m/Y H:i:s", strtotime($model->fecha));
+                            $model_evento->fecha_finalizacion_real = date("d/m/Y H:i:s");
+                        }
+                        if($model_evento->save()){
+                            echo "";
+                            return;
+                        }else{
+                            throw new HttpException(500, 'Problemas al actualizar la incidencia');
+                        }
+                    }
+                }
             }
-            $this->renderPartial('_form_seguimiento', array('model' => $model));
-        
+            return $this->renderPartial('_form_seguimiento', array('model' => $model));
     }
-
+    
+    public function loadModelSeguimiento($id) {
+        $model = ManEventoSeguimiento::findOne($id);   
+        if ($model === null)
+            throw new HttpException(404, 'The requested page does not exist.');
+        return $model;
+    }
+    
+    
+   
 }

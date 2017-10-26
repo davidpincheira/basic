@@ -1,4 +1,8 @@
-
+<?php
+use yii\helpers\Html;
+use yii\helpers\Url;
+use yii\grid\GridView;
+?>
 <?php if (sizeof($modelos)): ?>
     <?php foreach ($modelos as $modelo): ?>
         <div class="panel panel-default">
@@ -9,12 +13,19 @@
                     </div>
                               
                     <div class="col-sm-4" id="acciones">
-                        <button type="button" class="glyphicon glyphicon-pencil" aria-label="Left Align" data-action="update" title="Editar" data-man-evento-seguimiento-id="<?php echo $modelo->id; ?>">
+                                                
+                        <button type="button" class="glyphicon glyphicon-pencil" aria-label="Left Align" data-action="update" id="actualizarjs" data-toggle ="modal" data-target="#modal" data-action="update" data-pjax="0" >
+                                               
+                                                
                         </button>
+                        
+                      
+                        
                         <button type="button" class="glyphicon glyphicon-trash" aria-label="Left Align" data-action="delete" title="Eliminar" data-man-evento-seguimiento-id="<?php echo $modelo->id; ?>">
                         </button>
                         
-                    </div>                
+                    </div>            
+                    
                 </div>
             </div>
             <div class="panel-body">
